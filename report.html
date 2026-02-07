@@ -6,8 +6,6 @@
     <title>诊断报告 - 电商运营健康度诊断工具</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -49,14 +47,11 @@
                 
                 <!-- 操作按钮 -->
                 <div class="flex flex-wrap justify-center gap-4 no-print">
-                    <button onclick="downloadPDF()" class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold hover:scale-105 transition">
-                        📥 下载PDF报告
-                    </button>
-                    <button onclick="shareReport()" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold hover:bg-white/30 transition">
-                        🔗 分享给好友
-                    </button>
-                    <button onclick="location.href='diagnostic.html'" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold hover:bg-white/30 transition">
+                    <button onclick="location.href='diagnostic.html'" class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold hover:scale-105 transition">
                         🔄 再测一次
+                    </button>
+                    <button onclick="location.href='index.html'" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold hover:bg-white/30 transition">
+                        🏠 返回首页
                     </button>
                 </div>
             </div>
@@ -97,148 +92,228 @@
             </div>
         </div>
 
-        <!-- 行业对标 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 fade-in">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">📊 行业对标</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="text-center p-6 bg-purple-50 rounded-xl">
-                    <div class="text-sm text-gray-600 mb-2">你的得分</div>
-                    <div id="yourScore" class="text-3xl font-bold text-purple-600">76分</div>
-                    <div class="text-sm text-gray-600 mt-2">良好</div>
+        <!-- 联系我们 -->
+        <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-lg p-8 text-white text-center fade-in">
+            <h2 class="text-2xl font-bold mb-4">🚀 需要专业指导？</h2>
+            <p class="text-lg mb-6">我们提供电商运营体系搭建、团队培训、SOP制定等服务</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="bg-white/20 rounded-lg p-4">
+                    <p class="font-bold">微信咨询</p>
+                    <p>xXHao_YuanXx</p>
                 </div>
-                <div class="text-center p-6 bg-gray-50 rounded-xl">
-                    <div class="text-sm text-gray-600 mb-2">行业平均</div>
-                    <div class="text-3xl font-bold text-gray-600">68分</div>
-                    <div class="text-sm text-gray-600 mt-2">一般</div>
-                </div>
-                <div class="text-center p-6 bg-green-50 rounded-xl">
-                    <div class="text-sm text-gray-600 mb-2">优秀企业</div>
-                    <div class="text-3xl font-bold text-green-600">85分+</div>
-                    <div class="text-sm text-gray-600 mt-2">优秀</div>
-                </div>
-            </div>
-            <div class="mt-6 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
-                <p class="text-center text-gray-700">
-                    🎉 你超过了 <span id="percentile2" class="font-bold text-purple-600">68%</span> 的同行企业！<br>
-                    距离优秀企业还差 <span id="gapToExcellent" class="font-bold text-orange-600">9</span> 分
-                </p>
-            </div>
-        </div>
-
-        <!-- 下一步行动 -->
-        <div class="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg p-8 text-white mb-8 fade-in no-print">
-            <h2 class="text-2xl font-bold mb-6">🚀 想要更详细的改进方案？</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-3">深度诊断报告</h3>
-                    <div class="text-3xl font-bold mb-4">¥299</div>
-                    <ul class="space-y-2 mb-6 text-sm">
-                        <li>✓ 30页专业报告</li>
-                        <li>✓ 详细改进路线图</li>
-                        <li>✓ 1次30分钟专家咨询</li>
-                    </ul>
-                    <button class="w-full bg-white text-purple-600 py-3 rounded-lg font-bold hover:scale-105 transition">
-                        立即购买
-                    </button>
-                </div>
-                
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-3">SOP知识库</h3>
-                    <div class="text-3xl font-bold mb-4">¥999/年</div>
-                    <ul class="space-y-2 mb-6 text-sm">
-                        <li>✓ 42+份运营SOP文档</li>
-                        <li>✓ 5大数据工具模板</li>
-                        <li>✓ 持续更新</li>
-                    </ul>
-                    <button class="w-full bg-white text-purple-600 py-3 rounded-lg font-bold hover:scale-105 transition">
-                        立即订阅
-                    </button>
+                <div class="bg-white/20 rounded-lg p-4">
+                    <p class="font-bold">电话咨询</p>
+                    <p>18052570966</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 页脚 -->
-    <footer class="bg-gray-900 text-white py-8 px-4 no-print">
-        <div class="max-w-4xl mx-auto text-center">
-            <p class="mb-4">© 2026 千山电商运营工作室. All rights reserved.</p>
-            <p class="text-gray-400 text-sm">
-                微信：xXHao_YuanXx | 电话：18052570966 | 邮箱：qhy123sw@outlook.com
-            </p>
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="mb-2">© 2026 千山电商运营诊断工具</p>
+            <p class="text-gray-400 text-sm">专注电商运营体系搭建与团队培养</p>
         </div>
     </footer>
 
+    <script src="js/data.js"></script>
     <script>
-        // 从localStorage加载诊断结果
-        const result = JSON.parse(localStorage.getItem('diagnosticResult'));
-        
-        if (!result) {
-            alert('未找到诊断结果，请先完成诊断');
-            window.location.href = 'diagnostic.html';
+        // 页面加载立即执行
+        (function() {
+            // 获取诊断结果
+            const answersStr = localStorage.getItem('diagnosticAnswers');
+            
+            if (!answersStr) {
+                alert('未找到诊断结果，请先完成诊断！');
+                location.href = 'diagnostic.html';
+                return;
+            }
+            
+            const answers = JSON.parse(answersStr);
+            
+            if (Object.keys(answers).length === 0) {
+                alert('诊断结果为空，请重新诊断！');
+                location.href = 'diagnostic.html';
+                return;
+            }
+
+            // 立即计算结果
+            const result = calculateResults(answers);
+            
+            // DOM加载完成后渲染
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => renderReport(result));
+            } else {
+                renderReport(result);
+            }
+        })();
+
+        // 计算诊断结果（修复版 - 兼容两种数据格式）
+        function calculateResults(answers) {
+            const dimensionScores = {};
+            const problems = [];
+            
+            diagnosticData.dimensions.forEach(dimension => {
+                let totalScore = 0;
+                let totalWeight = 0;
+                let dimensionProblems = [];
+                
+                dimension.questions.forEach(question => {
+                    const answer = answers[question.id];
+                    
+                    // 兼容两种格式：直接是数字 或 {score: number}
+                    let score = null;
+                    if (typeof answer === 'number') {
+                        score = answer;
+                    } else if (answer && typeof answer.score === 'number') {
+                        score = answer.score;
+                    }
+                    
+                    if (score !== null) {
+                        const weight = question.weight || 1;
+                        totalScore += score * weight;
+                        totalWeight += weight;
+                        
+                        // 收集低分问题（3分及以下）
+                        if (score <= 3) {
+                            dimensionProblems.push({
+                                question: question.question,
+                                score: score,
+                                suggestion: question.suggestion,
+                                dimension: dimension.name
+                            });
+                        }
+                    }
+                });
+                
+                const avgScore = totalWeight > 0 ? (totalScore / totalWeight) : 0;
+                dimensionScores[dimension.id] = {
+                    name: dimension.name,
+                    score: avgScore,
+                    icon: dimension.icon,
+                    color: dimension.color,
+                    problems: dimensionProblems
+                };
+                
+                // 收集该维度的问题
+                problems.push(...dimensionProblems);
+            });
+            
+            // 计算总分
+            const totalScore = Object.values(dimensionScores).reduce((sum, d) => sum + d.score, 0) / Object.keys(dimensionScores).length;
+            const scaledScore = Math.round(totalScore * 20); // 转换为100分制
+            
+            // 按分数排序问题，取前10个
+            problems.sort((a, b) => a.score - b.score);
+            const topProblems = problems.slice(0, 10);
+            
+            // 生成改进建议（取分数最低的3个维度）
+            const sortedDimensions = Object.values(dimensionScores).sort((a, b) => a.score - b.score);
+            const topSuggestions = sortedDimensions.slice(0, 3).map((dim, index) => ({
+                priority: index + 1,
+                dimension: dim.name,
+                icon: dim.icon,
+                score: dim.score,
+                problems: dim.problems.slice(0, 3),
+                action: getActionPlan(dim.name, dim.score)
+            }));
+            
+            return {
+                totalScore: scaledScore,
+                dimensionScores,
+                problems: topProblems,
+                suggestions: topSuggestions,
+                level: getLevel(scaledScore),
+                percentile: getPercentile(scaledScore)
+            };
+        }
+
+        // 获取健康度等级
+        function getLevel(score) {
+            if (score >= 85) return { text: '优秀', stars: '⭐⭐⭐⭐⭐' };
+            if (score >= 75) return { text: '良好', stars: '⭐⭐⭐⭐☆' };
+            if (score >= 60) return { text: '一般', stars: '⭐⭐⭐☆☆' };
+            if (score >= 45) return { text: '较差', stars: '⭐⭐☆☆☆' };
+            return { text: '需改进', stars: '⭐☆☆☆☆' };
+        }
+
+        // 获取超越百分比
+        function getPercentile(score) {
+            if (score >= 90) return 95;
+            if (score >= 80) return 85;
+            if (score >= 70) return 68;
+            if (score >= 60) return 45;
+            return 20;
+        }
+
+        // 行动计划
+        function getActionPlan(dimensionName, score) {
+            const plans = {
+                '团队能力': '建议：搭建完整的培训体系和晋升通道，让团队看到成长空间',
+                '运营流程': '建议：制定标准化SOP，让工作流程可复制、可传承',
+                '数据分析': '建议：建立数据看板，每日/周/月定期复盘数据',
+                '推广投放': '建议：优化推广结构，提升ROI，降低获客成本',
+                '客服转化': '建议：建立客服绩效体系，从"接单员"到"销售员"转变',
+                '内容营销': '建议：建立内容生产流程，持续输出优质内容',
+                '工具应用': '建议：引入AI工具，提升团队效率',
+                '战略规划': '建议：明确品牌定位，制定清晰的发展路径'
+            };
+            return plans[dimensionName] || '建议：持续优化，提升运营能力';
         }
 
         // 渲染报告
-        function renderReport() {
-            // 渲染头部信息
-            renderHeader();
+        function renderReport(result) {
+            // 渲染总分和等级
+            document.getElementById('totalScore').textContent = result.totalScore + ' 分';
+            document.getElementById('levelText').textContent = result.level.text;
+            document.getElementById('levelStars').textContent = result.level.stars;
+            document.getElementById('percentile').textContent = result.percentile;
             
             // 渲染雷达图
-            renderRadarChart();
+            renderRadarChart(result.dimensionScores);
             
             // 渲染维度得分
-            renderDimensionScores();
+            renderDimensionScores(result.dimensionScores);
             
             // 渲染问题清单
-            renderProblems();
+            renderProblems(result.problems);
             
             // 渲染改进建议
-            renderSuggestions();
-            
-            // 渲染行业对标
-            renderBenchmark();
-        }
-
-        // 渲染头部信息
-        function renderHeader() {
-            const stars = '⭐'.repeat(result.levelStars) + '☆'.repeat(5 - result.levelStars);
-            document.getElementById('levelStars').textContent = stars;
-            document.getElementById('levelText').textContent = result.level;
-            document.getElementById('totalScore').textContent = result.totalScore + ' 分';
-            document.getElementById('percentile').textContent = result.percentile;
+            renderSuggestions(result.suggestions);
         }
 
         // 渲染雷达图
-        function renderRadarChart() {
+        function renderRadarChart(dimensionScores) {
             const ctx = document.getElementById('radarChart').getContext('2d');
-            
-            const labels = result.dimensionScores.map(d => d.dimension);
-            const data = result.dimensionScores.map(d => d.score);
+            const dimensions = Object.values(dimensionScores);
             
             new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: labels,
+                    labels: dimensions.map(d => d.name),
                     datasets: [{
                         label: '你的得分',
-                        data: data,
+                        data: dimensions.map(d => d.score),
                         fill: true,
                         backgroundColor: 'rgba(102, 126, 234, 0.2)',
                         borderColor: 'rgb(102, 126, 234)',
                         pointBackgroundColor: 'rgb(102, 126, 234)',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(102, 126, 234)'
+                        pointHoverBorderColor: 'rgb(102, 126, 234)',
+                        borderWidth: 2
                     }, {
                         label: '行业平均',
-                        data: [3.8, 3.6, 3.4, 3.7, 4.0, 3.9, 3.5, 3.3],
+                        data: [3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5],
                         fill: true,
-                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
+                        backgroundColor: 'rgba(156, 163, 175, 0.1)',
                         borderColor: 'rgb(156, 163, 175)',
                         pointBackgroundColor: 'rgb(156, 163, 175)',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(156, 163, 175)'
+                        pointHoverBorderColor: 'rgb(156, 163, 175)',
+                        borderWidth: 1
                     }]
                 },
                 options: {
@@ -246,11 +321,8 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: {
-                                display: true
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 5,
+                            beginAtZero: true,
+                            max: 5,
                             ticks: {
                                 stepSize: 1
                             }
@@ -258,7 +330,7 @@
                     },
                     plugins: {
                         legend: {
-                            position: 'top',
+                            position: 'bottom'
                         }
                     }
                 }
@@ -266,159 +338,81 @@
         }
 
         // 渲染维度得分
-        function renderDimensionScores() {
+        function renderDimensionScores(dimensionScores) {
             const container = document.getElementById('dimensionScores');
             container.innerHTML = '';
             
-            result.dimensionScores.forEach(dimension => {
-                const percentage = (dimension.score / dimension.maxScore) * 100;
-                const color = percentage >= 80 ? 'bg-green-500' : percentage >= 60 ? 'bg-yellow-500' : 'bg-red-500';
+            Object.values(dimensionScores).forEach(dimension => {
+                const percentage = (dimension.score / 5) * 100;
+                const colorClass = percentage >= 80 ? 'bg-green-500' : percentage >= 60 ? 'bg-blue-500' : percentage >= 40 ? 'bg-yellow-500' : 'bg-red-500';
                 
-                const scoreItem = document.createElement('div');
-                scoreItem.innerHTML = `
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="font-medium text-gray-700">${dimension.dimension}</span>
-                        <span class="font-bold text-gray-900">${dimension.score}分</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3">
-                        <div class="${color} h-3 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                const html = `
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-2">${dimension.icon}</span>
+                                <span class="font-semibold text-gray-900">${dimension.name}</span>
+                            </div>
+                            <span class="font-bold text-gray-900">${dimension.score.toFixed(1)} / 5.0</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="${colorClass} h-3 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                        </div>
                     </div>
                 `;
-                container.appendChild(scoreItem);
+                container.innerHTML += html;
             });
         }
 
         // 渲染问题清单
-        function renderProblems() {
+        function renderProblems(problems) {
             const container = document.getElementById('problemsList');
             
-            if (result.problems.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <div class="text-5xl mb-4">🎉</div>
-                        <p class="text-lg">太棒了！没有发现严重问题</p>
-                    </div>
-                `;
+            if (problems.length === 0) {
+                container.innerHTML = '<p class="text-gray-600">🎉 太棒了！没有发现明显问题，继续保持！</p>';
                 return;
             }
             
-            const highProblems = result.problems.filter(p => p.severity === 'high');
-            const mediumProblems = result.problems.filter(p => p.severity === 'medium');
-            
-            let html = '';
-            
-            if (highProblems.length > 0) {
-                html += `
-                    <div class="mb-6">
-                        <h3 class="text-lg font-bold text-red-600 mb-3">🔴 严重问题（需立即改进）</h3>
-                        <div class="space-y-3">
-                            ${highProblems.map(p => `
-                                <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded">
-                                    <div class="flex items-start justify-between">
-                                        <div class="flex-1">
-                                            <p class="font-medium text-gray-900">${p.question}</p>
-                                            <p class="text-sm text-gray-600 mt-1">${p.suggestion}</p>
-                                        </div>
-                                        <span class="ml-4 px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-bold">${p.score}分</span>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (mediumProblems.length > 0) {
-                html += `
-                    <div>
-                        <h3 class="text-lg font-bold text-yellow-600 mb-3">🟡 一般问题（建议优化）</h3>
-                        <div class="space-y-3">
-                            ${mediumProblems.map(p => `
-                                <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded">
-                                    <div class="flex items-start justify-between">
-                                        <div class="flex-1">
-                                            <p class="font-medium text-gray-900">${p.question}</p>
-                                            <p class="text-sm text-gray-600 mt-1">${p.suggestion}</p>
-                                        </div>
-                                        <span class="ml-4 px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-bold">${p.score}分</span>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            container.innerHTML = html;
-        }
-
-        // 渲染改进建议
-        function renderSuggestions() {
-            const container = document.getElementById('suggestionsList');
-            container.innerHTML = '';
-            
-            result.suggestions.forEach(suggestion => {
-                const suggestionCard = document.createElement('div');
-                suggestionCard.className = 'border-l-4 border-purple-500 bg-purple-50 p-6 rounded-xl';
-                suggestionCard.innerHTML = `
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-10 h-10 rounded-full gradient-bg text-white flex items-center justify-center font-bold text-lg mr-4">
-                            ${suggestion.priority}
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">${suggestion.title}</h3>
-                            <p class="text-gray-700 mb-3">${suggestion.description}</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                <div class="bg-white p-3 rounded-lg">
-                                    <span class="text-gray-600">预期效果：</span>
-                                    <span class="font-medium text-green-600">${suggestion.expectedEffect}</span>
-                                </div>
-                                <div class="bg-white p-3 rounded-lg">
-                                    <span class="text-gray-600">实施周期：</span>
-                                    <span class="font-medium text-blue-600">${suggestion.timeline}</span>
-                                </div>
+            container.innerHTML = '<div class="space-y-4">' + 
+                problems.map((problem, index) => `
+                    <div class="border-l-4 border-red-500 pl-4 py-2">
+                        <div class="flex items-start">
+                            <span class="bg-red-100 text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">${index + 1}</span>
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-900 mb-1">${problem.question}</p>
+                                <p class="text-sm text-gray-600 mb-1">维度：${problem.dimension} | 得分：${problem.score}/5</p>
+                                <p class="text-sm text-blue-600">${problem.suggestion}</p>
                             </div>
                         </div>
                     </div>
-                `;
-                container.appendChild(suggestionCard);
-            });
+                `).join('') +
+            '</div>';
         }
 
-        // 渲染行业对标
-        function renderBenchmark() {
-            document.getElementById('yourScore').textContent = result.totalScore + '分';
-            document.getElementById('percentile2').textContent = result.percentile + '%';
-            document.getElementById('gapToExcellent').textContent = (85 - result.totalScore);
-        }
-
-        // 下载PDF
-        async function downloadPDF() {
-            alert('PDF下载功能开发中，敬请期待！\n\n提示：你可以使用浏览器的打印功能（Ctrl+P / Cmd+P）保存为PDF。');
-        }
-
-        // 分享报告
-        function shareReport() {
-            const shareText = `我刚完成了电商运营健康度诊断，得分${result.totalScore}分（${result.level}），超过了${result.percentile}%的同行企业！你也来测测吧！`;
+        // 渲染改进建议
+        function renderSuggestions(suggestions) {
+            const container = document.getElementById('suggestionsList');
             
-            if (navigator.share) {
-                navigator.share({
-                    title: '电商运营健康度诊断报告',
-                    text: shareText,
-                    url: window.location.origin
-                }).catch(err => console.log('分享失败', err));
-            } else {
-                // 复制到剪贴板
-                navigator.clipboard.writeText(shareText + '\n\n' + window.location.origin).then(() => {
-                    alert('分享文案已复制到剪贴板！');
-                });
-            }
+            container.innerHTML = suggestions.map(suggestion => `
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
+                    <div class="flex items-center mb-4">
+                        <span class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">${suggestion.priority}</span>
+                        <span class="text-2xl mr-2">${suggestion.icon}</span>
+                        <h3 class="text-xl font-bold text-gray-900">${suggestion.dimension}</h3>
+                        <span class="ml-auto text-lg font-semibold text-gray-700">${suggestion.score.toFixed(1)}/5.0</span>
+                    </div>
+                    <p class="text-gray-700 mb-3 font-medium">${suggestion.action}</p>
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="text-sm font-semibold text-gray-700 mb-2">核心问题：</p>
+                        <ul class="space-y-1">
+                            ${suggestion.problems.map(p => `
+                                <li class="text-sm text-gray-600">• ${p.question}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
         }
-
-        // 页面加载完成后渲染报告
-        window.addEventListener('load', () => {
-            renderReport();
-        });
     </script>
 </body>
 </html>
