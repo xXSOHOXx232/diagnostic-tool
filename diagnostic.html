@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开始诊断 - 电商运营健康度诊断工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateX(5px);
+            border-color: #667eea;
+            background-color: #f3f4f6;
+        }
+        
+        .option-card.selected {
+            border-color: #667eea;
+            background-color: #ede9fe;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部进度条 -->
+    <div class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">
+                    第 <span id="currentQuestionNum">1</span> 题 / 共 <span id="totalQuestions">42</span> 题
+                </span>
+                <span class="text-sm font-medium text-purple-600">
+                    <span id="progressPercent">2</span>%
+                </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="progressBar" class="progress-bar gradient-bg h-2 rounded-full" style="width: 2%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="pt-24 pb-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- 当前维度标签 -->
+            <div id="dimensionBadge" class="inline-flex items-center px-4 py-2 rounded-full gradient-bg text-white mb-6 fade-in">
+                <span id="dimensionIcon" class="text-2xl mr-2">👥</span>
+                <span id="dimensionName" class="font-medium">团队能力</span>
+            </div>
+
+            <!-- 问题卡片 -->
+            <div id="questionCard" class="bg-white rounded-2xl shadow-lg p-8 mb-6 fade-in">
+                <h2 id="questionText" class="text-2xl font-bold text-gray-900 mb-8">
+                    团队成员是否有明确的岗位职责和工作边界？
+                </h2>
+
+                <!-- 选项列表 -->
+                <div id="optionsList" class="space-y-4">
+                    <!-- 选项将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 导航按钮 -->
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    ← 上一题
+                </button>
+                
+                <button id="nextBtn" class="px-6 py-3 gradient-bg text-white rounded-lg font-medium hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    下一题 →
+                </button>
+                
+                <button id="submitBtn" class="hidden px-8 py-3 gradient-bg text-white rounded-lg font-bold hover:opacity-90 transition">
+                    查看报告 →
+                </button>
+            </div>
+
+            <!-- 侧边栏（桌面端显示） -->
+            <div class="hidden lg:block fixed right-8 top-32 w-64">
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="font-bold text-gray-900 mb-4">诊断进度</h3>
+                    <div id="dimensionProgress" class="space-y-3">
+                        <!-- 维度进度将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载数据 -->
+    <script src="js/data.js"></script>
+    
+    <!-- 诊断逻辑 -->
+    <script>
+        class DiagnosticEngine {
+            constructor() {
+                this.data = diagnosticData;
+                this.currentQuestionIndex = 0;
+                this.answers = this.loadAnswers() || {};
+                this.allQuestions = this.flattenQuestions();
+                this.init();
+            }
+
+            // 将所有问题展平为一维数组
+            flattenQuestions() {
+                const questions = [];
+                this.data.dimensions.forEach(dimension => {
+                    dimension.questions.forEach(question => {
+                        questions.push({
+                            ...question,
+                            dimensionId: dimension.id,
+                            dimensionName: dimension.name,
+                            dimensionIcon: dimension.icon,
+                            dimensionColor: dimension.color
+                        });
+                    });
+                });
+                return questions;
+            }
+
+            // 初始化
+            init() {
+                this.renderQuestion();
+                this.renderDimensionProgress();
+                this.updateProgress();
+                this.bindEvents();
+            }
+
+            // 渲染当前问题
+            renderQuestion() {
+                const question = this.allQuestions[this.currentQuestionIndex];
+                
+                // 更新维度标签
+                document.getElementById('dimensionIcon').textContent = question.dimensionIcon;
+                document.getElementById('dimensionName').textContent = question.dimensionName;
+                
+                // 更新问题文本
+                document.getElementById('questionText').textContent = question.question;
+                
+                // 渲染选项
+                const optionsList = document.getElementById('optionsList');
+                optionsList.innerHTML = '';
+                
+                question.options.forEach((option, index) => {
+                    const optionCard = document.createElement('div');
+                    optionCard.className = 'option-card border-2 border-gray-200 rounded-xl p-4';
+                    optionCard.dataset.score = option.score;
+                    
+                    // 如果已经选择过，添加selected类
+                    if (this.answers[question.id] === option.score) {
+                        optionCard.classList.add('selected');
+                    }
+                    
+                    optionCard.innerHTML = `
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full gradient-bg text-white flex items-center justify-center font-bold mr-4">
+                                ${option.score}
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-gray-800">${option.text}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    optionCard.addEventListener('click', () => {
+                        this.selectOption(question.id, option.score);
+                    });
+                    
+                    optionsList.appendChild(optionCard);
+                });
+                
+                // 添加淡入动画
+                document.getElementById('questionCard').classList.remove('fade-in');
+                setTimeout(() => {
+                    document.getElementById('questionCard').classList.add('fade-in');
+                }, 10);
+            }
+
+            // 选择选项
+            selectOption(questionId, score) {
+                // 保存答案
+                this.answers[questionId] = score;
+                this.saveAnswers();
+                
+                // 更新UI
+                document.querySelectorAll('.option-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                event.currentTarget.classList.add('selected');
+                
+                // 启用下一题按钮
+                document.getElementById('nextBtn').disabled = false;
+                
+                // 更新进度
+                this.updateProgress();
+                this.renderDimensionProgress();
+                
+                // 自动跳转到下一题（延迟500ms）
+                setTimeout(() => {
+                    if (this.currentQuestionIndex < this.allQuestions.length - 1) {
+                        this.nextQuestion();
+                    }
+                }, 500);
+            }
+
+            // 下一题
+            nextQuestion() {
+                if (this.currentQuestionIndex < this.allQuestions.length - 1) {
+                    this.currentQuestionIndex++;
+                    this.renderQuestion();
+                    this.updateProgress();
+                    this.updateButtons();
+                    
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            // 上一题
+            prevQuestion() {
+                if (this.currentQuestionIndex > 0) {
+                    this.currentQuestionIndex--;
+                    this.renderQuestion();
+                    this.updateProgress();
+                    this.updateButtons();
+                    
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            // 更新进度
+            updateProgress() {
+                const totalQuestions = this.allQuestions.length;
+                const currentNum = this.currentQuestionIndex + 1;
+                const answeredCount = Object.keys(this.answers).length;
+                const percent = Math.round((answeredCount / totalQuestions) * 100);
+                
+                document.getElementById('currentQuestionNum').textContent = currentNum;
+                document.getElementById('totalQuestions').textContent = totalQuestions;
+                document.getElementById('progressPercent').textContent = percent;
+                document.getElementById('progressBar').style.width = percent + '%';
+            }
+
+            // 更新按钮状态
+            updateButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const submitBtn = document.getElementById('submitBtn');
+                
+                // 上一题按钮
+                prevBtn.disabled = this.currentQuestionIndex === 0;
+                
+                // 下一题/提交按钮
+                const currentQuestion = this.allQuestions[this.currentQuestionIndex];
+                const hasAnswer = this.answers[currentQuestion.id] !== undefined;
+                
+                if (this.currentQuestionIndex === this.allQuestions.length - 1) {
+                    // 最后一题
+                    nextBtn.classList.add('hidden');
+                    submitBtn.classList.remove('hidden');
+                    submitBtn.disabled = !hasAnswer;
+                } else {
+                    nextBtn.classList.remove('hidden');
+                    submitBtn.classList.add('hidden');
+                    nextBtn.disabled = !hasAnswer;
+                }
+            }
+
+            // 渲染维度进度
+            renderDimensionProgress() {
+                const progressContainer = document.getElementById('dimensionProgress');
+                progressContainer.innerHTML = '';
+                
+                this.data.dimensions.forEach(dimension => {
+                    const dimensionQuestions = this.allQuestions.filter(q => q.dimensionId === dimension.id);
+                    const answeredCount = dimensionQuestions.filter(q => this.answers[q.id] !== undefined).length;
+                    const totalCount = dimensionQuestions.length;
+                    const isComplete = answeredCount === totalCount;
+                    const isCurrent = this.allQuestions[this.currentQuestionIndex].dimensionId === dimension.id;
+                    
+                    const progressItem = document.createElement('div');
+                    progressItem.className = 'flex items-center justify-between text-sm';
+                    progressItem.innerHTML = `
+                        <div class="flex items-center">
+                            <span class="mr-2">${dimension.icon}</span>
+                            <span class="${isCurrent ? 'font-bold text-purple-600' : 'text-gray-700'}">
+                                ${dimension.name}
+                            </span>
+                        </div>
+                        <span class="${isComplete ? 'text-green-600' : 'text-gray-500'}">
+                            ${isComplete ? '✅' : `${answeredCount}/${totalCount}`}
+                        </span>
+                    `;
+                    
+                    progressContainer.appendChild(progressItem);
+                });
+            }
+
+            // 绑定事件
+            bindEvents() {
+                document.getElementById('prevBtn').addEventListener('click', () => {
+                    this.prevQuestion();
+                });
+                
+                document.getElementById('nextBtn').addEventListener('click', () => {
+                    this.nextQuestion();
+                });
+                
+                document.getElementById('submitBtn').addEventListener('click', () => {
+                    this.submit();
+                });
+                
+                // 键盘快捷键
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevQuestion();
+                    } else if (e.key === 'ArrowRight') {
+                        const currentQuestion = this.allQuestions[this.currentQuestionIndex];
+                        if (this.answers[currentQuestion.id] !== undefined) {
+                            this.nextQuestion();
+                        }
+                    } else if (e.key >= '1' && e.key <= '5') {
+                        const score = parseInt(e.key);
+                        const currentQuestion = this.allQuestions[this.currentQuestionIndex];
+                        const option = currentQuestion.options.find(opt => opt.score === score);
+                        if (option) {
+                            this.selectOption(currentQuestion.id, score);
+                        }
+                    }
+                });
+            }
+
+            // 保存答案到localStorage
+            saveAnswers() {
+                localStorage.setItem('diagnosticAnswers', JSON.stringify(this.answers));
+            }
+
+            // 从localStorage加载答案
+            loadAnswers() {
+                const saved = localStorage.getItem('diagnosticAnswers');
+                return saved ? JSON.parse(saved) : null;
+            }
+
+            // 提交诊断
+            submit() {
+                // 检查是否所有问题都已回答
+                const allAnswered = this.allQuestions.every(q => this.answers[q.id] !== undefined);
+                
+                if (!allAnswered) {
+                    alert('请回答所有问题后再提交');
+                    return;
+                }
+                
+                // 计算结果
+                const result = this.calculateResult();
+                
+                // 保存结果
+                localStorage.setItem('diagnosticResult', JSON.stringify(result));
+                
+                // 跳转到报告页面
+                window.location.href = 'report.html';
+            }
+
+            // 计算诊断结果
+            calculateResult() {
+                const dimensionScores = [];
+                
+                // 计算每个维度的得分
+                this.data.dimensions.forEach(dimension => {
+                    const dimensionQuestions = this.allQuestions.filter(q => q.dimensionId === dimension.id);
+                    let totalScore = 0;
+                    let totalWeight = 0;
+                    
+                    dimensionQuestions.forEach(question => {
+                        const answer = this.answers[question.id];
+                        if (answer !== undefined) {
+                            totalScore += answer * question.weight;
+                            totalWeight += question.weight;
+                        }
+                    });
+                    
+                    const avgScore = totalWeight > 0 ? totalScore / totalWeight : 0;
+                    
+                    dimensionScores.push({
+                        dimension: dimension.name,
+                        dimensionId: dimension.id,
+                        score: Math.round(avgScore * 10) / 10,
+                        maxScore: 5
+                    });
+                });
+                
+                // 计算总分（转换为100分制）
+                const avgScore = dimensionScores.reduce((sum, d) => sum + d.score, 0) / dimensionScores.length;
+                const totalScore = Math.round(avgScore * 20);
+                
+                // 判断健康度等级
+                let level, levelStars;
+                if (totalScore >= 85) {
+                    level = "优秀";
+                    levelStars = 5;
+                } else if (totalScore >= 75) {
+                    level = "良好";
+                    levelStars = 4;
+                } else if (totalScore >= 60) {
+                    level = "一般";
+                    levelStars = 3;
+                } else if (totalScore >= 45) {
+                    level = "较差";
+                    levelStars = 2;
+                } else {
+                    level = "很差";
+                    levelStars = 1;
+                }
+                
+                // 计算超过百分比
+                const percentile = this.calculatePercentile(totalScore);
+                
+                // 识别问题
+                const problems = this.identifyProblems();
+                
+                // 生成改进建议
+                const suggestions = this.generateSuggestions(dimensionScores, problems);
+                
+                return {
+                    totalScore,
+                    level,
+                    levelStars,
+                    percentile,
+                    dimensionScores,
+                    problems,
+                    suggestions,
+                    timestamp: new Date().toISOString()
+                };
+            }
+
+            // 计算超过百分比
+            calculatePercentile(totalScore) {
+                const distribution = this.data.benchmark.totalScore.distribution;
+                let lowerCount = 0;
+                
+                for (const range of distribution) {
+                    const [min, max] = range.range.split('-').map(Number);
+                    if (totalScore > max) {
+                        lowerCount += range.percentage;
+                    } else if (totalScore >= min && totalScore <= max) {
+                        const rangePercentage = (totalScore - min) / (max - min) * range.percentage;
+                        lowerCount += rangePercentage;
+                        break;
+                    }
+                }
+                
+                return Math.round(lowerCount);
+            }
+
+            // 识别问题
+            identifyProblems() {
+                const problems = [];
+                
+                this.allQuestions.forEach(question => {
+                    const answer = this.answers[question.id];
+                    if (answer !== undefined && answer < 3.5) {
+                        problems.push({
+                            severity: answer < 2.5 ? "high" : answer < 3.5 ? "medium" : "low",
+                            question: question.question,
+                            score: answer,
+                            suggestion: question.suggestion,
+                            dimension: question.dimensionName
+                        });
+                    }
+                });
+                
+                // 按严重程度排序
+                problems.sort((a, b) => {
+                    const severityOrder = { high: 0, medium: 1, low: 2 };
+                    return severityOrder[a.severity] - severityOrder[b.severity];
+                });
+                
+                return problems;
+            }
+
+            // 生成改进建议
+            generateSuggestions(dimensionScores, problems) {
+                const suggestions = [];
+                
+                // 找出得分最低的3个维度
+                const sortedDimensions = [...dimensionScores].sort((a, b) => a.score - b.score);
+                const top3LowDimensions = sortedDimensions.slice(0, 3);
+                
+                top3LowDimensions.forEach((dimension, index) => {
+                    // 找出该维度下最严重的问题
+                    const dimensionProblems = problems.filter(p => p.dimension === dimension.dimension);
+                    
+                    if (dimensionProblems.length > 0) {
+                        const topProblem = dimensionProblems[0];
+                        
+                        suggestions.push({
+                            priority: index + 1,
+                            title: `优化${dimension.dimension}`,
+                            description: topProblem.suggestion,
+                            expectedEffect: this.getExpectedEffect(dimension.dimensionId),
+                            timeline: this.getTimeline(dimension.score)
+                        });
+                    }
+                });
+                
+                return suggestions;
+            }
+
+            // 获取预期效果
+            getExpectedEffect(dimensionId) {
+                const effects = {
+                    team: "团队能力提升50%，新人上手时间缩短70%",
+                    process: "运营效率提升40%，工作质量提升30%",
+                    data: "数据准确率提升50%，决策效率提升60%",
+                    promotion: "推广ROI提升30%，推广效率提升40%",
+                    service: "客服转化率提升55%，客户满意度提升40%",
+                    content: "内容点击率提升50%，转化率提升30%",
+                    tools: "运营效率提升50%，人力成本降低30%",
+                    strategy: "目标达成率提升40%，战略清晰度提升60%"
+                };
+                return effects[dimensionId] || "运营效率显著提升";
+            }
+
+            // 获取实施周期
+            getTimeline(score) {
+                if (score < 2.5) return "1个月";
+                if (score < 3.5) return "2周";
+                return "1周";
+            }
+        }
+
+        // 初始化诊断引擎
+        const engine = new DiagnosticEngine();
+    </script>
+</body>
+</html>

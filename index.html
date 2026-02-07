@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电商运营健康度诊断工具 - 3分钟发现你的运营短板</title>
+    <meta name="description" content="专业的电商运营健康度诊断工具，8大维度全面评估，3分钟生成专业报告，已有1000+企业完成诊断">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold gradient-text">🎯 千山诊断</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-purple-600 transition">首页</a>
+                    <a href="#features" class="text-gray-700 hover:text-purple-600 transition">功能</a>
+                    <a href="#cases" class="text-gray-700 hover:text-purple-600 transition">案例</a>
+                    <a href="#about" class="text-gray-700 hover:text-purple-600 transition">关于我们</a>
+                </div>
+                <div>
+                    <a href="diagnostic.html" class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                        立即诊断
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section id="home" class="gradient-bg pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="animate-fadeIn">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                    3分钟诊断你的<br>电商运营健康度
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-8">
+                    8大维度 · 42项诊断 · 专业报告 · 改进建议
+                </p>
+                <a href="diagnostic.html" class="inline-block bg-white text-purple-600 px-10 py-4 rounded-full text-lg font-bold hover:scale-105 transition shadow-xl">
+                    立即免费诊断 →
+                </a>
+                <p class="text-white/80 mt-6">
+                    ✨ 已有 <span class="font-bold text-yellow-300">1,234</span> 家企业完成诊断
+                </p>
+            </div>
+            
+            <!-- 动画图标 -->
+            <div class="mt-16 animate-float">
+                <div class="inline-block bg-white/10 backdrop-blur-lg rounded-3xl p-8">
+                    <div class="text-6xl">📊</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8大诊断维度 -->
+    <section id="features" class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    8大维度全面诊断
+                </h2>
+                <p class="text-xl text-gray-600">
+                    科学评估你的电商运营健康度，精准定位问题所在
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 维度卡片1 -->
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-100">
+                    <div class="text-4xl mb-4">👥</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">团队能力</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估团队的能力水平、协作效率和培养体系
+                    </p>
+                    <div class="mt-4 text-purple-600 text-sm font-medium">
+                        5项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片2 -->
+                <div class="card-hover bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl border border-orange-100">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">运营流程</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估运营工作的标准化程度和流程规范性
+                    </p>
+                    <div class="mt-4 text-orange-600 text-sm font-medium">
+                        5项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片3 -->
+                <div class="card-hover bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl border border-green-100">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">数据分析</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估数据收集、分析和应用的能力
+                    </p>
+                    <div class="mt-4 text-green-600 text-sm font-medium">
+                        6项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片4 -->
+                <div class="card-hover bg-gradient-to-br from-red-50 to-white p-6 rounded-2xl border border-red-100">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">推广投放</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估付费推广的效率和ROI管理能力
+                    </p>
+                    <div class="mt-4 text-red-600 text-sm font-medium">
+                        5项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片5 -->
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-100">
+                    <div class="text-4xl mb-4">💬</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">客服转化</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估客服团队的服务质量和销售转化能力
+                    </p>
+                    <div class="mt-4 text-purple-600 text-sm font-medium">
+                        6项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片6 -->
+                <div class="card-hover bg-gradient-to-br from-cyan-50 to-white p-6 rounded-2xl border border-cyan-100">
+                    <div class="text-4xl mb-4">📝</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">内容营销</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估商品内容和营销素材的质量
+                    </p>
+                    <div class="mt-4 text-cyan-600 text-sm font-medium">
+                        5项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片7 -->
+                <div class="card-hover bg-gradient-to-br from-pink-50 to-white p-6 rounded-2xl border border-pink-100">
+                    <div class="text-4xl mb-4">🛠️</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">工具应用</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估运营工具和AI工具的使用效率
+                    </p>
+                    <div class="mt-4 text-pink-600 text-sm font-medium">
+                        5项诊断 →
+                    </div>
+                </div>
+
+                <!-- 维度卡片8 -->
+                <div class="card-hover bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl border border-orange-100">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">战略规划</h3>
+                    <p class="text-gray-600 text-sm">
+                        评估运营战略和长期规划能力
+                    </p>
+                    <div class="mt-4 text-orange-600 text-sm font-medium">
+                        5项诊断 →
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 诊断流程 -->
+    <section class="py-20 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    3步完成诊断
+                </h2>
+                <p class="text-xl text-gray-600">
+                    简单快速，专业准确
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 步骤1 -->
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-bg text-white text-3xl font-bold mb-6">
+                        1
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">回答问题</h3>
+                    <p class="text-gray-600">
+                        42道精心设计的问题<br>
+                        3分钟轻松完成<br>
+                        随时可以返回修改
+                    </p>
+                </div>
+
+                <!-- 步骤2 -->
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-bg text-white text-3xl font-bold mb-6">
+                        2
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">生成报告</h3>
+                    <p class="text-gray-600">
+                        AI实时计算分析<br>
+                        生成专业诊断报告<br>
+                        可视化图表展示
+                    </p>
+                </div>
+
+                <!-- 步骤3 -->
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full gradient-bg text-white text-3xl font-bold mb-6">
+                        3
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">获取建议</h3>
+                    <p class="text-gray-600">
+                        精准定位问题<br>
+                        专业改进建议<br>
+                        可下载PDF报告
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="diagnostic.html" class="btn-primary text-white px-10 py-4 rounded-full text-lg font-bold inline-block">
+                    开始诊断 →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成功案例 -->
+    <section id="cases" class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    成功案例
+                </h2>
+                <p class="text-xl text-gray-600">
+                    看看他们如何通过诊断改善运营
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 案例1 -->
+                <div class="card-hover bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="gradient-bg p-6 text-white">
+                        <h3 class="text-2xl font-bold mb-2">安防设备企业</h3>
+                        <p class="text-white/90">年GMV 2000万</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">诊断前</span>
+                                <span class="font-bold text-red-600">58分</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">诊断后</span>
+                                <span class="font-bold text-green-600">82分</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <h4 class="font-bold text-gray-900 mb-2">核心改进</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>✓ 新人上手时间缩短76%</li>
+                                <li>✓ 团队离职率降低50%</li>
+                                <li>✓ 运营效率提升40%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 案例2 -->
+                <div class="card-hover bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-br from-pink-500 to-purple-600 p-6 text-white">
+                        <h3 class="text-2xl font-bold mb-2">美妆品牌</h3>
+                        <p class="text-white/90">年GMV 5000万</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">诊断前</span>
+                                <span class="font-bold text-red-600">65分</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">诊断后</span>
+                                <span class="font-bold text-green-600">88分</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <h4 class="font-bold text-gray-900 mb-2">核心改进</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>✓ 推广ROI提升35%</li>
+                                <li>✓ 客服转化率提升55%</li>
+                                <li>✓ 数据分析效率提升60%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 案例3 -->
+                <div class="card-hover bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-br from-green-500 to-teal-600 p-6 text-white">
+                        <h3 class="text-2xl font-bold mb-2">家居用品</h3>
+                        <p class="text-white/90">年GMV 3000万</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">诊断前</span>
+                                <span class="font-bold text-red-600">62分</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">诊断后</span>
+                                <span class="font-bold text-green-600">85分</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <h4 class="font-bold text-gray-900 mb-2">核心改进</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>✓ 建立完整SOP体系</li>
+                                <li>✓ 数据驱动决策</li>
+                                <li>✓ 团队能力提升50%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="gradient-bg py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+                现在就开始诊断
+            </h2>
+            <p class="text-xl text-white/90 mb-8">
+                3分钟发现你的运营短板，获取专业改进建议
+            </p>
+            <a href="diagnostic.html" class="inline-block bg-white text-purple-600 px-12 py-4 rounded-full text-lg font-bold hover:scale-105 transition shadow-xl">
+                立即免费诊断 →
+            </a>
+            <p class="text-white/80 mt-6 text-sm">
+                完全免费 · 无需注册 · 即刻获取报告
+            </p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer id="about" class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">关于我们</h3>
+                    <p class="text-gray-400">
+                        千山电商运营工作室，专注于电商运营体系化建设，帮助企业搭建团队、建立流程、提升效率。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">联系方式</h3>
+                    <p class="text-gray-400">
+                        微信：xXHao_YuanXx<br>
+                        电话：18052570966<br>
+                        邮箱：qhy123sw@outlook.com
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">服务内容</h3>
+                    <ul class="text-gray-400 space-y-2">
+                        <li>• 运营体系搭建</li>
+                        <li>• 团队培训赋能</li>
+                        <li>• 数据分析优化</li>
+                        <li>• 推广效率提升</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>© 2026 千山电商运营工作室. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card-hover').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
